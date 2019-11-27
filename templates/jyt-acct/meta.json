@@ -1,0 +1,45 @@
+{
+  "prompts": {
+    "filename": {
+      "type": "string",
+      "required": true,
+      "label": "请输入你要生成的文件名"
+    },
+    "controllerName": {
+      "type": "string",
+      "required": true,
+      "label": "请输入你要生成页面的controller",
+      "default": "ExampleController"
+    },
+    "query": {
+      "type": "checkbox",
+      "label": "请选择需要的查询条件",
+      "choices":[
+          {"name":"商户名称","value":"merchantNo"},
+          {"name":"业务类型","value":"bizType"},
+          {"name":"卡类型","value":"cardType"},
+          {"name":"业务流水号","value":"bizFlow"},
+          {"name":"商户订单号","value":"merOrderNo"},
+          {"name":"交易日期","value":"tradeDate"}
+      ],
+      "default":["merchantNo","bizType"]
+    },
+    "download": {
+      "type": "confirm",
+      "label": "页面中是否有导出按钮",
+      "default":false
+    },
+    "queryUrl": {
+      "type": "string",
+      "label": "请输入查询请求的URL",
+      "default": "xxxxx"
+    },
+    "downloadUrl": {
+      "type": "string",
+      "label": "请输入下载请求的URL(没有不用写)",
+      "default": "someurl"
+    }
+
+  },
+  "completeMessage": "{{#inPlace}}To get started:\n\n  npm install\n  npm run dev{{else}}To get started:\n\n  cd {{destDirName}}\n  npm install\n  npm run dev{{/inPlace}}"
+}

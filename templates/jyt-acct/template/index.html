@@ -1,0 +1,95 @@
+<!-- <div>{{controllerName}}</div> -->
+<div class="system-user-page" ng-controller={%controllerName%}>
+  <div class="panel panel-default">
+      <div class="panel-heading panel-heading-query">查询条件<span class="pull-right glyphicon" ng-class="{'glyphicon-minus': !queryPanelStatus, 'glyphicon-plus': queryPanelStatus}" ng-click="queryPanelStatus = !queryPanelStatus"></span></div>
+      <div class="panel-body panel-body-query" uib-collapse="queryPanelStatus">
+          <form class="form-horizontal" name="feeruleQueryForm">
+              <div class="form-group">
+                  {%#query.merchantNo%}
+                  <div class="col-sm-4 row">
+                      <label class="col-sm-5 control-label">商户名称</label>
+                      <div class="col-sm-7">
+                          <input type="text" ng-model="merchantName" uib-typeahead="openingMchnt as openingMchnt.onName for openingMchnt in openingDate | filter: $viewValue " 
+                        typeahead-show-hint="true"
+                        typeahead-min-length="4" class="form-control" ng-blur="selectMerchantNo()" placeholder="请输入商户名称" ng-change="changeMchnt()" autocomplete="off"/>
+                      </div>
+                  </div>
+                  {%/query.merchantNo%}
+                  {%#query.bizType%}
+                  <div class="col-sm-4 row">
+                      <label class="col-sm-5 control-label">业务类型</label>
+                      <div class="col-sm-7">
+                          <select class="form-control" ng-model="params.bizType" ng-options="option.key as option.value for option in bizTypeEnum"></select>
+                      </div>
+                  </div>
+                  {%/query.bizType%}
+                  {%#query.cardType%}
+                  <div class="col-sm-4 row">
+                      <label class="col-sm-5 control-label">卡类型</label>
+                      <div class="col-sm-7">
+                          <select class="form-control" ng-model="params.bankCardType" ng-options="option.key as option.value for option in bankCardTypeEnum"></select>
+                      </div>
+                  </div>
+                  {%/query.cardType%}
+              </div>
+              <div class="form-group"> 
+                  {%#query.bizFlow%}
+                  <div class="col-sm-4 row">
+                      <label class="col-sm-5 control-label">业务流水号</label>
+                      <div class="col-sm-7">
+                          <input type="text" class="form-control" ng-model="params.bizFlow" placeholder="请输入业务流水号" autocomplete="off"/>
+                      </div>
+                  </div>
+                  {%/query.bizFlow%}
+                  {%#query.merOrderNo%}
+                  <div class="col-sm-4 row">
+                      <label class="col-sm-5 control-label">商户订单号</label>
+                      <div class="col-sm-7">
+                          <input type="text" class="form-control" ng-model="params.merOrderNo" placeholder="请输入商户订单号" autocomplete="off"/>
+                      </div>
+                  </div>
+                  {%/query.merOrderNo%}
+                  {%#query.tradeDate%}
+                  <div class="col-sm-4 row">
+                    <label class="col-sm-5 control-label">交易日期</label>
+                    <div class="col-sm-7" style="padding: 0">
+                      <div class="col-sm-6" style="padding-right: 0">
+                        <input class="form-control" type="text" placeholder="开始日期"
+                        ng-model="dt.from.date" uib-datepicker-popup="yyyy-MM-dd"
+                        is-open="dt.from.opened" datepicker-options="dateOptions"
+                        current-text="当日" clear-text="取消" close-text="关闭"
+                        ng-click="open(dt.from)" autocomplete="off"/>
+                      </div>
+                      <div class="col-sm-6" style="padding-right: 0">
+                        <input class="form-control" type="text" placeholder="结束日期"
+                        ng-model="dt.to.date" uib-datepicker-popup="yyyy-MM-dd"
+                        is-open="dt.to.opened" datepicker-options="dateOptions"
+                        current-text="当日" clear-text="取消" close-text="关闭"
+                        ng-click="open(dt.to)" autocomplete="off"/>
+                      </div>
+                    </div>
+                  </div>
+                  {%/query.tradeDate%}
+              </div>
+              <hr/>
+              <div class="form-group form-group-button">
+                  <div class="col-sm-11 col-sm-offset-1">
+                      <button class="btn btn-primary" ng-click="query()" ng-disabled="queryButtonStatus">
+                        <span ng-show="!queryButtonStatus">查询</span>
+                        <span ng-class="{'loaddingOver':queryButtonStatus}" class="glyphicon glyphicon-refresh loadding"></span>
+                      </button>
+                      <button class="btn btn-warning" ng-click="queryAll()">取消</button>
+                      {%#download%}
+                      <button class="btn btn-success" ng-disabled="downloadButton" ng-click="download()">导出</button>
+                      {%/download%}
+                  </div>
+              </div>
+          </form>
+      </div>
+  </div>
+  <div class="gridStyle" ui-grid="gridOptions" ui-grid-resize-columns ui-grid-selection>
+      <div class="grid-loading grid-norecord" ng-if="noRecord">
+         <span>无记录</span>
+      </div>
+  </div>
+</div>

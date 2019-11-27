@@ -1,0 +1,34 @@
+{
+  "name": "ykm-cli",
+  "version": "1.0.0",
+  "description": "脚手架常见的功能 1. 有命令，以及命令，二级命令，参数，有帮助说明 2. 有交互，用户输入/确认 3. 有状态，比如loading等",
+  "main": "index.js",
+  "bin": {
+    "ykm": "bin/ykm.js",
+    "ykm-init": "bin/ykm-init"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^3.1.0",
+    "chalk": "^3.0.0",
+    "commander": "^4.0.1",
+    "consolidate": "^0.15.1",
+    "handlebars": "^4.5.3",
+    "handlebars-delimiters": "^1.0.0",
+    "inquirer": "^7.0.0",
+    "metalsmith": "^2.3.0",
+    "multimatch": "^4.0.0",
+    "ora": "^4.0.3",
+    "read-metadata": "^1.0.0",
+    "semver": "^6.3.0",
+    "validate-npm-package-name": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=10"
+  }
+}

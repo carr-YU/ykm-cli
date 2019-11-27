@@ -1,0 +1,85 @@
+#!/usr/bin/env node
+const program = require('commander');
+const chalk = require('chalk');
+const semver = require('semver');
+const path = require('path');
+const inquirer = require('inquirer');
+const ora = require('ora');
+const generate = require('../lib/generate');
+program
+  .on('--help',()=>{
+      console.log(chalk.green('  create a project with the template you choose'))
+      console.log('  $ ykm init'+ chalk.gray(' <mgr> ') + chalk.gray(' <projectpath>'))
+  })
+
+program.parse(process.argv);
+
+checkVersion(require("../package.json").engines.node,require("../package.json").name);
+directHelp();
+const template = program.args[0];
+const rawName = program.args[1];
+const inPlace = !rawName || rawName === '.';
+const name = inPlace ? path.relative('../',process.cwd()) : rawName;
+const templateRoot = path.join(__dirname,'../templates');
+const to = path.resolve(rawName || '.');
+//如果在当前目录，提示你 在当前目录，否则提示你新创建一个目录，是否继续
+inquirer.prompt([
+    {
+        type:'confirm',
+        message:inPlace ? '在当前目录创建？' : `新创建${rawName}目录，是否继续？`,
+        name:'ok',
+    }
+]).then(answers =>{
+    if(answers.ok){
+        run();
+    }else{
+        console.log(chalk.red('主动放弃操作...'))
+    }
+})
+
+
+//真正业务逻辑
+function run(){
+    const spinner = ora({
+        text:'正在加载文件',
+        color:'green',
+
+    });
+    const src = path.join(templateRoot, template)
+    generate(name, src, to, (err) => {
+        if(err) {
+            console.log(chalk.red(err.message));
+            process.exit(1);
+        }
+        //spinner.stop();
+        console.log(chalk.green('success'))
+    })
+}
+
+
+
+
+/**
+ *判断node版本是否符合要求 
+    @params{
+        wanted:期望的包的版本
+        id:当前的项目名
+    }
+**/
+function checkVersion(wanted, id){
+    if(!semver.satisfies(process.version, wanted)){
+        console.log(chalk.red(`当前Node版本是${process.version}，但是${id}需要的Node版本是${wanted}`));
+        process.exit(1);
+    }
+}
+
+
+/**
+ *如果不带参数，就重新返回帮助文档 
+**/
+function directHelp(){
+    program.parse(process.argv);
+    if(program.args.length < 1){
+        return program.help();
+    }
+}
